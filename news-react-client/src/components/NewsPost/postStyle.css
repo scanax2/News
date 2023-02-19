@@ -1,0 +1,22 @@
+.custom-post-title {
+    height: 68px; /* or any other value you want to use */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.custom-post-description {
+    height: 100px; /* or any other value you want to use */
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.custom-img {
+    min-height: 250px;
+    max-height: 250px;
+}
