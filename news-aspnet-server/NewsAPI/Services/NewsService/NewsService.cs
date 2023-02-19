@@ -1,7 +1,5 @@
 ﻿using NewsAPI.Models;
 using System.Web;
-using System.Text.Json;
-using NewsAPI.Json.Converters;
 
 namespace NewsAPI.Services.NewsService
 {
@@ -9,24 +7,24 @@ namespace NewsAPI.Services.NewsService
     {
         private const string API_KEY = "791f1748a7614dd8af9626e9de00ce35";
         private const string URL = "https://newsapi.org/v2/";
-        private const string QUERY_EXAMPLE = "q=Apple&" +
-          "from=2023-02-04&" +
-          "sortBy=popularity&" +
+        private const string HEADLINE_QUERY_EXAMPLE = 
+          "category=Health&" +
           "page=1&" +
+          "country=us&" +
           "pageSize=100&" +
           "apiKey=791f1748a7614dd8af9626e9de00ce35";
-        private const string URL_EXAMPLE = "https://newsapi.org/v2/everything?" + QUERY_EXAMPLE;
-        private const string SEARCH_WORD_NAME = "q";
-        private const string FROM_DATE_NAME = "from";
+        private const string URL_EXAMPLE = "https://newsapi.org/v2/everything?" + HEADLINE_QUERY_EXAMPLE;
+        private const string CATEGORY_WORD_NAME = "category";
+        private const string COUNTRY_NAME = "country";
         private const string SORT_BY_NAME = "sortBy";
         private const string PAGE_NUMBER_NAME = "page";
         private const string PAGE_SIZE_NAME = "pageSize";
         private const string API_KEY_NAME = "apiKey";
 
 
-        public async Task<List<News>> GetNews(int pageNumber, int pageSize, string keyWord, string from, SortType sortBy)
+        public async Task<List<News>> GetNews(NewsQuery newsQuery)
         {
-            string url = BuildUrlQuery(pageNumber, pageSize, keyWord, from, sortBy);
+            string url = BuildUrlQuery(newsQuery);
 
             Console.Write(url);
 
@@ -34,25 +32,24 @@ namespace NewsAPI.Services.NewsService
             http.DefaultRequestHeaders.Add("User-Agent", "NewsPetProject/1.0");
             string jsonString = await http.GetStringAsync(url);
 
-            var deserializeOptions = new JsonSerializerOptions();
-            deserializeOptions.Converters.Add(new NewsJsonConverter());
+            NewsFactory newsFactory = new NewsFactory();
 
-            List<News>? news = JsonSerializer.Deserialize<List<News>>(jsonString, deserializeOptions);
+            List<News>? news = newsFactory.GetNewsList(jsonString, newsQuery.Category, newsQuery.Country);
+            
             return news;
         }
 
-        private string BuildUrlQuery(int pageNumber, int pageSize, string keyWord, string from, SortType sortBy)
+        private string BuildUrlQuery(NewsQuery newsQuery)
         {
-            var query = HttpUtility.ParseQueryString(QUERY_EXAMPLE);
+            var query = HttpUtility.ParseQueryString(HEADLINE_QUERY_EXAMPLE);
 
-            query[SEARCH_WORD_NAME] = keyWord;
-            query[FROM_DATE_NAME] = from;
-            query[SORT_BY_NAME] = sortBy.ToString();
-            query[PAGE_NUMBER_NAME] = pageNumber.ToString();
-            query[PAGE_SIZE_NAME] = pageSize.ToString();
+            query[CATEGORY_WORD_NAME] = newsQuery.Category;
+            query[COUNTRY_NAME] = newsQuery.Country;
+            query[PAGE_NUMBER_NAME] = newsQuery.PageNumber.ToString();
+            query[PAGE_SIZE_NAME] = newsQuery.PageSize.ToString();
             query[API_KEY_NAME] = API_KEY;
 
-            string url = URL + "everything?";
+            string url = URL + "top-headlines?";//"everything?";
             for (int i = 0; i < query.AllKeys.Length; i++)
             {
                 string separator = "&";

@@ -1,4 +1,5 @@
-﻿namespace NewsAPI.Models
+﻿
+namespace NewsAPI.Models
 {
     public class News
     {
@@ -8,5 +9,7 @@
         public string Url { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public DateTime PublishedAt { get; set; } = DateTime.Now;
+        public string Category { get; set; } = string.Empty;
+        public string Country { get; set; } = string.Empty;
     }
 }

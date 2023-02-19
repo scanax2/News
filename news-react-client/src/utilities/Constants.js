@@ -5,7 +5,7 @@ const DOMAIN_URL_DEVELOPMENT = "https://localhost:3000";
 const DOMAIN_URL_PRODUCTION  = "https://localhost:3000";
 
 const ENDPOINTS = {
-    NEWS_API_GET: "NewsAPI/{pageNumber}/{pageSize}",
+    NEWS_API_GET: "NewsAPI/{pageNumber}/{pageSize}/{category}/{country}",
     NEWS_API_CLEAR: "Clear"
 }
 

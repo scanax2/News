@@ -19,10 +19,31 @@ namespace NewsAPI.Controllers
             this.repository = repository;
         }
 
-        [HttpGet("{pageNumber}/{pageSize}")]
-        public async Task<ActionResult<List<News>>> GetNews(int pageNumber, int pageSize)
+        [HttpGet("{pageSize}/{category}/{country}")]
+        public async Task<ActionResult<int>> GetTotalPages(int pageSize, string category, string country)
         {
-            List<News> news = (List<News>) await repository.GetNewsAsync(pageNumber, pageSize);
+            NewsQuery query = new NewsQuery()
+            {
+                PageSize = pageSize,
+                Category = category,
+                Country = country
+            };
+            int totalPages = await repository.GetTotalNewsPages(query);
+
+            return Ok(totalPages);
+        }
+
+        [HttpGet("{pageNumber}/{pageSize}/{category}/{country}")]
+        public async Task<ActionResult<List<News>>> GetNews(int pageNumber, int pageSize, string category, string country)
+        {
+            NewsQuery query = new NewsQuery()
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                Category = category,
+                Country = country
+            };
+            List<News> news = (List<News>) await repository.GetNewsAsync(query);
             if (news == null || news.Count == 0)
             {
                 return BadRequest("no news in repository");
@@ -31,10 +52,10 @@ namespace NewsAPI.Controllers
             return Ok(news);
         }
 
-        [HttpPost("{pageNumber}/{pageSize}/{keyWord}/{from}")]
-        public async Task<ActionResult<List<News>>> AddNews(int pageNumber, int pageSize, string keyWord, DateTime from)
+        [HttpPost]
+        public async Task<ActionResult<List<News>>> AddNews(NewsQuery newsQuery)
         {
-            List<News> news = await service.GetNews(pageNumber, pageSize, keyWord, from.ToString("yyyy-mm-dd"), SortType.popularity);
+            List<News> news = await service.GetNews(newsQuery);
             if (news == null)
             {
                 return BadRequest("no news from News API");

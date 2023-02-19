@@ -1,4 +1,5 @@
-﻿using NewsAPI.Models;
+﻿using Microsoft.AspNetCore.Http;
+using NewsAPI.Models;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -26,6 +27,7 @@ namespace NewsAPI.Json.Converters
             List<News> news = new List<News>();
 
             Dictionary<string, string> propertiesValue = new Dictionary<string, string>();
+            bool isNullProperty = false;
             while (reader.Read())
             {
                 if (reader.TokenType == JsonTokenType.PropertyName)
@@ -44,6 +46,11 @@ namespace NewsAPI.Json.Converters
                     reader.Read();
 
                     string? propertyValue = reader.GetString();
+                    if (propertyValue == null)
+                    {
+                        isNullProperty = true;
+                    }
+
                     propertiesValue.Add(propertyName, propertyValue);
 
                     if (propertiesValue.Count >= PROPERTIES_TO_SAVE.Length)
@@ -58,15 +65,12 @@ namespace NewsAPI.Json.Converters
                             Console.WriteLine(e.StackTrace);
                         }
 
-                        news.Add(new News()
+                        if (!isNullProperty)
                         {
-                            Title = propertiesValue[TITLE_PROPERTY_NAME],
-                            ImageUrl = propertiesValue[IMAGE_URL_PROPERTY_NAME],
-                            Url = propertiesValue[URL_PROPERTY_NAME],
-                            Description = propertiesValue[DESCRIPTION_PROPERTY_NAME],
-                            PublishedAt = publishedAt
-                        });
+                            news.Add(CreateNews(propertiesValue, publishedAt));
+                        }
                         propertiesValue.Clear();
+                        isNullProperty = false;
                     }
                 }
             }
@@ -76,6 +80,19 @@ namespace NewsAPI.Json.Converters
         public override void Write(Utf8JsonWriter writer, List<News> value, JsonSerializerOptions options)
         {
             throw new NotImplementedException();
+        }
+
+        private News CreateNews(Dictionary<string, string> propertiesValue, DateTime publishedAt)
+        {
+            News news = new News()
+            {
+                Title = propertiesValue[TITLE_PROPERTY_NAME],
+                ImageUrl = propertiesValue[IMAGE_URL_PROPERTY_NAME],
+                Url = propertiesValue[URL_PROPERTY_NAME],
+                Description = propertiesValue[DESCRIPTION_PROPERTY_NAME],
+                PublishedAt = publishedAt
+            };
+            return news;
         }
     }
 }

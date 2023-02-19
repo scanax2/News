@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NewsAPI.Models;
+using NewsAPI.Services.NewsService;
 
 namespace NewsAPI.Controllers.Data
 {
@@ -13,13 +14,26 @@ namespace NewsAPI.Controllers.Data
             this.context = context;
         }
 
-        public async Task<IEnumerable<News>> GetNewsAsync(int pageNumber, int pageSize)
+        public async Task<int> GetTotalNewsPages(NewsQuery newsQuery)
         {
-            int count = context.News.Count();
+            var found = await context.News
+                .Where(x => x.Category.Equals(newsQuery.Category) && x.Country.Equals(newsQuery.Country))
+                .ToListAsync();
+            int newsCount = found.Count();
+            int totalPages = (int)Math.Ceiling((float)newsCount / newsQuery.PageSize);
+            return totalPages;
+        }
 
-            int from = pageNumber * pageSize;
-     
-            var found = await context.News.Skip(from).Take(pageSize).ToListAsync();
+        public async Task<IEnumerable<News>> GetNewsAsync(NewsQuery newsQuery)
+        {
+            var filtered = await context.News
+                .Where(x => x.Category.Equals(newsQuery.Category) && x.Country.Equals(newsQuery.Country))
+                .ToListAsync();
+
+            int totalCount = filtered.Count();
+            int from = newsQuery.PageNumber * newsQuery.PageSize;
+
+            var found = filtered.Skip(from).Take(newsQuery.PageSize).ToList();
 
             return found;
         }

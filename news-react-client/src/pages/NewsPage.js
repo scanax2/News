@@ -22,7 +22,7 @@ function NewsPage() {
   useEffect(() => {
     console.log(`News for ${country}/${category}?page=${page}`)
     getNews(page)
-  }, [country, category, page]);
+  }, [country, category]);
 
   useEffect(() => {
     setTotal(prevTotal => 5)
@@ -30,13 +30,16 @@ function NewsPage() {
 
   useEffect(() => {
    setPage(prevPage => parseInt(searchParams.get("page")))
+   getNews(page)
   }, [searchParams]);
 
   function getNews(pageNumber) {
     const url = Constants.API_URL_GET_NEWS
-      .replace("{pageNumber}", pageNumber - 1)
-      .replace("{pageSize}", rowsNumber*columnsNumber);
-
+      .replace("{pageNumber}", pageNumber)
+      .replace("{pageSize}", rowsNumber*columnsNumber)
+      .replace("{category}", "health")
+      .replace("{country}", "us")
+      
     fetch(url, {
       method: 'GET'
     })
