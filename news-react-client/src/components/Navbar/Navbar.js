@@ -1,20 +1,55 @@
 import "./navbarStyle.css"
 import React, { useState, useParams, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { navbarCountryTabs, navbarCategoryTabs } from "./NavbarData";
+import { fetchFromServer } from "../../utilities/RequestManager";
+import Constants from "../../utilities/Constants";
 
 function Navbar() {
 
     const [isOverlay, toggleOverlay] = useState(false);
 
-    const [country, setCountry] = useState(navbarCountryTabs[0]);
-    const [category, setCategory] = useState(navbarCategoryTabs[0]);
+    const [countriesList, setCountriesList] = useState([])
+    const [categoriesList, setCategoriesList] = useState([])
+
+    const [country, setCountry] = useState();
+    const [category, setCategory] = useState();
     const [searchParams, setSearchParams] = useSearchParams();
 
     const navigate = useNavigate();
 
     function setOverlay() {
         toggleOverlay(prevState => !prevState)
+    }
+
+    useEffect(() => {
+        fetchFromServer(Constants.API_URL_GET_COUNTRIES, 'GET', handleCountriesLoad)
+        fetchFromServer(Constants.API_URL_GET_CATEGORIES, 'GET', handleCategoriesLoad)
+    }, [])
+
+    function handleCountriesLoad(data) {
+        const list = convertToList(data)
+        console.log(list)
+        setCountriesList(list)
+        setCountry(list[0])
+        navigateToUrl()
+    }
+
+    function handleCategoriesLoad(data) {
+        const list = convertToList(data)
+        console.log(list)
+        setCategoriesList(list)
+        setCategory(list[0])
+        navigateToUrl()
+    }
+
+    function convertToList(dict) {
+        var arr = [];
+        for (var key in dict) {
+            if (dict.hasOwnProperty(key)) {
+                arr.push({ key: key, value: dict[key] });
+            }
+        }
+        return arr;
     }
 
     useEffect(() => {
@@ -30,9 +65,11 @@ function Navbar() {
     }
 
     function navigateToUrl() {
-        const page = searchParams.get("page")
-        const url = `News/${country.text}/${category.text}?page=${1}`;
-        navigate(url);
+        if (country != null && category != null) {
+            const page = searchParams.get("page")
+            const url = `News/${country.key}/${category.key}?page=${1}`;
+            navigate(url);
+        }
     }
 
     return (
@@ -47,18 +84,18 @@ function Navbar() {
                 </button>
                 <div className="collapse navbar-collapse position-absolute top-50 start-50 translate-middle" id="navbarNavDropdown">
                     <ul className="navbar-nav">
-                        {navbarCategoryTabs.map((category) => {
-                            return (<li key={category.text} className="nav-item">
-                                <button className="nav-link" onClick={() => handleCategoryClick(category)}>{category.text}</button>
+                        {categoriesList.map((category, index) => {
+                            return (<li key={index} className="nav-item">
+                                <button className="nav-link" onClick={() => handleCategoryClick(category)}>{category.key}</button>
                             </li>)
                         })}
                         <li className="nav-item dropdown">
                             <a className="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Region
+                                Country
                             </a>
                             <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                {navbarCountryTabs.map((country) => {
-                                    return (<a key={country.text} className="dropdown-item" onClick={() => handleCountryClick(country)}>{country.text}</a>)
+                                {countriesList.map((country, index) => {
+                                    return (<a key={index} className="dropdown-item" onClick={() => handleCountryClick(country)}>{country.key}</a>)
                                 })}
                             </div>
                         </li>
