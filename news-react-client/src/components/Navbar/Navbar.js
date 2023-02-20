@@ -31,7 +31,7 @@ function Navbar() {
 
     function navigateToUrl() {
         const page = searchParams.get("page")
-        const url = `News/${country}/${category}?page=${page}`;
+        const url = `News/${country.text}/${category.text}?page=${1}`;
         navigate(url);
     }
 
@@ -48,8 +48,8 @@ function Navbar() {
                 <div className="collapse navbar-collapse position-absolute top-50 start-50 translate-middle" id="navbarNavDropdown">
                     <ul className="navbar-nav">
                         {navbarCategoryTabs.map((category) => {
-                            return (<li key={category} className="nav-item">
-                                <button className="nav-link" onClick={() => handleCategoryClick(category)}>{category}</button>
+                            return (<li key={category.text} className="nav-item">
+                                <button className="nav-link" onClick={() => handleCategoryClick(category)}>{category.text}</button>
                             </li>)
                         })}
                         <li className="nav-item dropdown">
@@ -58,7 +58,7 @@ function Navbar() {
                             </a>
                             <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 {navbarCountryTabs.map((country) => {
-                                    return (<a key={country} className="dropdown-item" onClick={() => handleCountryClick(country)}>{country}</a>)
+                                    return (<a key={country.text} className="dropdown-item" onClick={() => handleCountryClick(country)}>{country.text}</a>)
                                 })}
                             </div>
                         </li>
