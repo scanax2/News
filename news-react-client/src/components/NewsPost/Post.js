@@ -1,5 +1,6 @@
 import './postStyle.css'
 import React from 'react';
+import RenderSmoothImage from './RenderSmoothImage';
 
 const Post = ({ post }) => {
 
@@ -16,7 +17,7 @@ const Post = ({ post }) => {
     return (
         <div className="post card mt-4 d-flex flex-column">
             <a href={post.url}>
-                <img src={post.imageUrl} alt={post.title} className="card-img-top custom-img" style={{ objectFit: "cover" }} onError={onImageError} />
+                <RenderSmoothImage src={post.imageUrl} alt={post.title} />
             </a>
             <div className="card-body d-flex flex-column">
                 <h3 className="card-title custom-post-title">{post.title}</h3>
