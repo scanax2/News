@@ -1,14 +1,13 @@
 import "./newsPageStyle.css"
 import React, { useState, useEffect, useRef } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams, useNavigate } from "react-router-dom";
 import Constants from "../utilities/Constants";
 import Post from "../components/NewsPost/Post";
 import Pagination from "../components/Pagination/Pagination";
-import { navbarCategoryTabs, navbarCountryTabs } from "../components/Navbar/NavbarData";
 import { fetchFromServer } from "../utilities/RequestManager";
 
 
-function NewsPage() {
+function NewsPage({ country, category }) {
 
   const ROWS_NUMBER = 3;
   const COLUMNS_NUMBER = 3;
@@ -18,12 +17,13 @@ function NewsPage() {
 
   const [isReadyToRenderPosts, setReadyToRenderPosts] = useState(false);
 
-  const { country, category } = useParams();
   const [page, setPage] = useState(0);
   const [news, setNews] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [totalPages, setTotalPages] = useState();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isFirstRender.current) {
@@ -41,7 +41,7 @@ function NewsPage() {
     if (page != 1) {
       isChangeCategoryRender.current = true;
     }
-    console.log(`News for ${country}/${category}?page=${page}`)
+    console.log(`News for ${country.key}/${category.key}?page=${page}`)
     handleCategoryChange()
   }, [country, category]);
 
@@ -75,8 +75,8 @@ function NewsPage() {
 
     pageNumber -= 1
 
-    const categoryValue = navbarCategoryTabs.filter(c => c.text === category)[0].value
-    const countryValue = navbarCountryTabs.filter(c => c.text === country)[0].value
+    const categoryValue = category.value
+    const countryValue = country.value
 
     const url = Constants.API_URL_GET_NEWS
       .replace("{pageNumber}", pageNumber)
@@ -91,8 +91,9 @@ function NewsPage() {
 
   function getTotalPages() {
     const pageSize = ROWS_NUMBER * COLUMNS_NUMBER
-    const categoryValue = navbarCategoryTabs.filter(c => c.text === category)[0].value
-    const countryValue = navbarCountryTabs.filter(c => c.text === country)[0].value
+
+    const categoryValue = category.value
+    const countryValue = country.value
 
     const url = Constants.API_URL_GET_TOTAL_PAGES
       .replace("{pageNumber}", 0)
@@ -110,17 +111,29 @@ function NewsPage() {
     ))
   }
 
+  useEffect(() => {
+    navigateToUrl()
+  }, [country, category])
+
+  function navigateToUrl() {
+    if (country != null && category != null) {
+      const url = `/News/${country.key}/${category.key}?page=${1}`;
+      navigate(url);
+    }
+  }
+
+
   return (
     <div className="container custom-container">
       {isReadyToRenderPosts &&
-      <>
-        <div className="row">
-          {renderPosts()}
-        </div>
-        <div className="d-flex justify-content-center mt-5 mb-5">
-          <Pagination currentPage={page} totalPages={totalPages} />
-        </div>
-      </>
+        <>
+          <div className="row">
+            {renderPosts()}
+          </div>
+          <div className="d-flex justify-content-center mt-5 mb-5">
+            <Pagination currentPage={page} totalPages={totalPages} />
+          </div>
+        </>
       }
     </div>
   );
