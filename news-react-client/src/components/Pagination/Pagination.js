@@ -10,7 +10,6 @@ const Pagination = ({ currentPage, totalPages }) => {
 
     function handleSelectPage(page) {
         setPrevPage(currentPage);
-        window.scrollTo(0, 0);
     }
 
     var pageLinks = [];

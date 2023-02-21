@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using NewsAPI.Controllers.Data;
 using NewsAPI.Services.NewsService;
