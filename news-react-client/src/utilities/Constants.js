@@ -5,10 +5,10 @@ const DOMAIN_URL_DEVELOPMENT = "https://localhost:3000";
 const DOMAIN_URL_PRODUCTION  = "https://localhost:3000";
 
 const ENDPOINTS = {
-    NEWS_POSTS_API_TOTAL_PAGES_GET: "NewsPostsApi/{pageSize}/{category}/{country}",
-    NEWS_POSTS_API_GET: "NewsPostsApi/{pageNumber}/{pageSize}/{category}/{country}",
-    NEWS_CATEGORIES_API_CATEGORIES_GET: "NewsCategoriesApi/categories",
-    NEWS_CATEGORIES_API_COUNTRIES_GET: "NewsCategoriesApi/countries"
+    NEWS_CATEGORIES_API_CATEGORIES_GET: "api/NewsCategories/categories",
+    NEWS_CATEGORIES_API_COUNTRIES_GET: "api/NewsCategories/countries",
+    NEWS_POSTS_API_TOTAL_PAGES_GET: "api/NewsPosts/{pageSize}/{category}/{country}",
+    NEWS_POSTS_API_GET: "api/NewsPosts/{pageNumber}/{pageSize}/{category}/{country}"
 }
 
 const DEVELOPMENT = {
