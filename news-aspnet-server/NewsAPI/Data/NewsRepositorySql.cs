@@ -16,7 +16,7 @@ namespace AspNetServer.Data
 
         public async Task<int> GetTotalPagesAsync(NewsQueryData newsQuery)
         {
-            var found = await GetFilteredNews(newsQuery);
+            List<News> found = await GetFilteredNews(newsQuery);
 
             int newsCount = found.Count;
             int totalPages = (int)Math.Ceiling((float)newsCount / newsQuery.PageSize);
@@ -25,11 +25,11 @@ namespace AspNetServer.Data
 
         public async Task<IEnumerable<News>> GetNewsAsync(NewsQueryData newsQuery)
         {
-            var filtered = await GetFilteredNews(newsQuery);
+            List<News> filtered = await GetFilteredNews(newsQuery);
 
             int from = newsQuery.PageNumber * newsQuery.PageSize;
 
-            var found = filtered.Skip(from).Take(newsQuery.PageSize).ToList();
+            List<News> found = filtered.Skip(from).Take(newsQuery.PageSize).ToList();
 
             return found;
         }
