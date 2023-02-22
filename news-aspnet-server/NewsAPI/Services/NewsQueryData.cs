@@ -1,6 +1,6 @@
-﻿namespace NewsAPI.Services.NewsService
+﻿namespace AspNetServer.Services.NewsService
 {
-    public class NewsQuery
+    public class NewsQueryData
     {
         public int PageNumber { get; set; }
         public int PageSize { get; set; }

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using NewsAPI.Controllers.Data;
-using NewsAPI.Services.NewsService;
+using AspNetServer.Data;
+using AspNetServer.Services.NewsService;
+using AspNetServer.Services.NewsApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,8 +21,8 @@ builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
-builder.Services.AddSingleton<INewsService, NewsService>();
-builder.Services.AddTransient<IRepository, RepositorySQL>();
+builder.Services.AddSingleton<INewsService, NewsApiService>();
+builder.Services.AddTransient<IRepository, NewsRepositorySql>();
 
 builder.Services.AddControllers();
 

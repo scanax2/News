@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace NewsAPI.Migrations
+namespace AspNetServer.Migrations
 {
     /// <inheritdoc />
     public partial class FixedDbSetMigration : Migration

@@ -1,12 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
-using NewsAPI.Services.NewsService;
-using NewsAPI.Utilities;
+using AspNetServer.Utilities;
 
-namespace NewsAPI.Controllers
+namespace AspNetServer.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("[controller]")]
-    public class NewsCategoriesApiController : ControllerBase
+    public class NewsCategoriesController : ControllerBase
     {
         [HttpGet("categories")]
         public ActionResult<Dictionary<string, string>> GetCategories()
@@ -19,9 +18,9 @@ namespace NewsAPI.Controllers
         [HttpGet("countries")]
         public ActionResult<Dictionary<string, string>> GetCountries()
         {
-            Dictionary<string, string> categories = Constants.NEWS_COUNTRIES;
+            Dictionary<string, string> countries = Constants.NEWS_COUNTRIES;
 
-            return Ok(categories);
+            return Ok(countries);
         }
     }
 }

@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace NewsAPI.Migrations
+namespace AspNetServer.Migrations
 {
     /// <inheritdoc />
     public partial class InitialMigration : Migration

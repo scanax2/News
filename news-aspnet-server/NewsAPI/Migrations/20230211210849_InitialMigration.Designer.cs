@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using NewsAPI.Controllers.Data;
+using AspNetServer.Data;
 
 #nullable disable
 
-namespace NewsAPI.Migrations
+namespace AspNetServer.Migrations
 {
     [DbContext(typeof(DataContext))]
     [Migration("20230211210849_InitialMigration")]

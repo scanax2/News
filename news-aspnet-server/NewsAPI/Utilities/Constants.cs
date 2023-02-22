@@ -1,4 +1,4 @@
-﻿namespace NewsAPI.Utilities
+﻿namespace AspNetServer.Utilities
 {
     public static class Constants
     {
@@ -24,5 +24,7 @@
             { "Japan", "jp" },
             { "France", "fr" },
         };
+
+        public const string EMPTY_RESULT = "No matching entries";
     }
 }

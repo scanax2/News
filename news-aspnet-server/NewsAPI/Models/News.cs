@@ -1,5 +1,4 @@
-﻿
-namespace NewsAPI.Models
+﻿namespace AspNetServer.Models
 {
     public class News
     {

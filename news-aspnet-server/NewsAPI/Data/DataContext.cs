@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-using NewsAPI.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using AspNetServer.Models;
 
-namespace NewsAPI.Controllers.Data
+namespace AspNetServer.Data
 {
     public class DataContext : DbContext
     {

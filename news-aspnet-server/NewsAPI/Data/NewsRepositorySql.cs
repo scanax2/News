@@ -1,20 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using NewsAPI.Models;
-using NewsAPI.Services.NewsService;
+using AspNetServer.Models;
+using AspNetServer.Services.NewsService;
 
-namespace NewsAPI.Controllers.Data
+namespace AspNetServer.Data
 {
-    public class RepositorySQL : IRepository
+    public class NewsRepositorySql : IRepository
     {
         private readonly DataContext context;
 
 
-        public RepositorySQL(DataContext context)
+        public NewsRepositorySql(DataContext context)
         {
             this.context = context;
         }
 
-        public async Task<int> GetTotalNewsPages(NewsQuery newsQuery)
+        public async Task<int> GetTotalPagesAsync(NewsQueryData newsQuery)
         {
             var found = await GetFilteredNews(newsQuery);
 
@@ -23,7 +23,7 @@ namespace NewsAPI.Controllers.Data
             return totalPages;
         }
 
-        public async Task<IEnumerable<News>> GetNewsAsync(NewsQuery newsQuery)
+        public async Task<IEnumerable<News>> GetNewsAsync(NewsQueryData newsQuery)
         {
             var filtered = await GetFilteredNews(newsQuery);
 
@@ -50,7 +50,10 @@ namespace NewsAPI.Controllers.Data
             return context.News;
         }
 
-        public async Task<IEnumerable<News>> DeleteOutdatedNewsAsync(DateTime beforeDate)
+        /// <summary>
+        /// Used for removing outdated news
+        /// </summary>
+        public async Task<IEnumerable<News>> DeleteNewsAsync(DateTime beforeDate)
         {
             foreach (var news in context.News.Where(x => x.PublishedAt < beforeDate))
             {
@@ -60,13 +63,13 @@ namespace NewsAPI.Controllers.Data
             return context.News;
         }
 
-        public async Task DeleteAllNewsAsync()
+        public async Task DeleteNewsAsync()
         {
             context.News.RemoveRange(context.News);
             await context.SaveChangesAsync();
         }
 
-        private async Task<List<News>> GetFilteredNews(NewsQuery newsQuery)
+        private async Task<List<News>> GetFilteredNews(NewsQueryData newsQuery)
         {
             List<News> filteredByCountry = new List<News>();
             if (!newsQuery.Country.Equals("any"))
