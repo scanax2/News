@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project>
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAvgbYkVrxKkWevg0SuQwDwgAAAAACAAAAAAAQZgAAAAEAACAAAADl337tdujE5+AEYn1iSRgqAVzGoAOiGYa0+w0q5uExXQAAAAAOgAAAAAIAACAAAAAKKE7RD8GGliUB7XOwpKwyQgzQMdJsRMeUZGTN99anYYAAAACLzpANsYiJ0Aq0pQrQhwCvAoGmrkRv6pa5HJR94FNxOWYDahwHH/ZR6I24Nnu7WC8fJhv0YyafKVVmn71N3/xiFNzwZ57KwmwDawP7eUQnrwG1WBAPI3eRCzEBqsvgkc0rlzIzdNHueAFhW+Iy0slsbRRRYShGjDRCopjvW/8jvkAAAABXZ5Tt+jh7/+Bb3hzgwubuv55toFdjmMpSGS+XiQCIDqWIbIx3jSM5zlEgczru0lMmeJbFQ+rM/4qxhV/uLyOd</EncryptedPassword>
+    <History>True|2023-02-25T14:41:25.0361282Z;True|2023-02-25T15:34:17.3377762+01:00;True|2023-02-25T15:00:56.5364488+01:00;False|2023-02-25T14:58:45.9947146+01:00;True|2023-02-24T20:21:06.4975492+01:00;True|2023-02-24T20:20:26.5570823+01:00;False|2023-02-24T20:19:40.7674930+01:00;True|2023-02-24T20:18:36.5924074+01:00;True|2023-02-24T20:16:54.5941004+01:00;True|2023-02-24T19:17:22.9017729+01:00;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="DefaultConnection">
+      <Value>Data Source=./Data/NewsDB.db</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+</Project>

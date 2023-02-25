@@ -31,11 +31,13 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+app.UseSwagger();
+app.UseSwaggerUI(options =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    options.DocumentTitle = "ASP.NET Web API";
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Web API");
+    options.RoutePrefix = string.Empty;
+});
 
 app.UseHttpsRedirection();
 

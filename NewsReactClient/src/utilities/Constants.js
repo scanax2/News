@@ -1,5 +1,5 @@
 const API_BASE_URL_DEVELOPMENT = "https://localhost:7193";
-const API_BASE_URL_PRODUCTION = "https://localhost:7193";
+const API_BASE_URL_PRODUCTION = "https://aspnetserverreactnewsserver.azurewebsites.net";
 
 const DOMAIN_URL_DEVELOPMENT = "https://localhost:3000";
 const DOMAIN_URL_PRODUCTION  = "https://localhost:3000";
